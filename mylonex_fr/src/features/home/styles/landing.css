@@ -1,0 +1,85 @@
+.landing-root {
+  /* Typography System */
+  --font-landing-hero: var(--font-heading, 'Epilogue', sans-serif);
+  --font-landing-body: var(--font-sans, 'Inter', sans-serif);
+  
+  /* Color System */
+  --landing-bg: #f8fafc;
+  --landing-bg-secondary: #ffffff;
+  --landing-text-main: #0f172a;
+  --landing-text-muted: #475569;
+  --landing-accent: rgb(var(--color-brand-deep));
+  --landing-accent-light: rgb(var(--color-primary));
+  --landing-border: rgba(203, 213, 225, 0.4);
+
+  /* Depth System */
+  --landing-shadow-sm: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  --landing-shadow-md: 0 12px 30px -4px rgba(15, 23, 42, 0.08);
+  --landing-shadow-lg: 0 24px 50px -12px rgba(15, 23, 42, 0.15);
+
+  /* Spacing System (using rem for scaling) */
+  --landing-spacing-section: 6rem;
+  --landing-spacing-element: 2rem;
+
+  /* Border Radius System */
+  --landing-radius-card: 24px;
+  --landing-radius-button: 9999px;
+
+  background-color: var(--landing-bg);
+  color: var(--landing-text-main);
+  font-family: var(--font-landing-body);
+}
+
+.landing-hero-text {
+  font-family: var(--font-landing-hero);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.landing-section {
+  padding-top: var(--landing-spacing-section);
+  padding-bottom: var(--landing-spacing-section);
+}
+
+.landing-card {
+  background-color: var(--landing-bg-secondary);
+  border-radius: var(--landing-radius-card);
+  box-shadow: var(--landing-shadow-sm);
+  border: 1px solid var(--landing-border);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.landing-card:hover {
+  box-shadow: var(--landing-shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Base Motion Classes */
+.motion-fade-in {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motion-fade-in[data-in-view="true"] {
+  opacity: 1;
+}
+
+.motion-slide-up {
+  transform: translateY(30px);
+}
+
+.motion-slide-up[data-in-view="true"] {
+  transform: translateY(0);
+}
+
+.motion-delay-100 { transition-delay: 100ms; }
+.motion-delay-200 { transition-delay: 200ms; }
+.motion-delay-300 { transition-delay: 300ms; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .landing-root {
+    --landing-spacing-section: 4rem;
+  }
+}

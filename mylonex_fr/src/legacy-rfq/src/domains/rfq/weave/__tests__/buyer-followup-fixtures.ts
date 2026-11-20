@@ -1,0 +1,2 @@
+export const CARGO_INQUIRY = 'Hi, need 97% cotton / 3% spandex, 2/1 twill rib-stop for cargo pants. Count 40s × 40s / construction 133 × 72; 58" cuttable width, 185 GSM. Olive 800 m, charcoal 700 m — total 1,500 metres. Peach finish. Made to order. “Rib-stop” means ripstop fabric, not rib knit.';
+export const MATT_INQUIRY = 'Please quote MATT 2/2 in 100% recycled cotton, 16 OE x 16 OE / 96 x 60. Width 165.1 cm, weight 220 g/m². Need 2.5K mtrs in navy, ready stock only. We do not want plain weave or 2/1 twill. Keep the recycled cotton description in your offer.';

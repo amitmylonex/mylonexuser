@@ -1,0 +1,198 @@
+.dialog {
+  --rfq-blue: #3036ff;
+  --rfq-muted: #596780;
+  --rfq-border: #dce1ed;
+  width: min(920px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  color: #111c38;
+  background: #fff;
+  box-shadow: 0 24px 80px #17234238;
+  font: inherit;
+  font-size: 0.8125rem;
+}
+.dialog[open] {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+}
+.dialogHeader,
+.tabs,
+.dialogFooter {
+  flex-shrink: 0;
+}
+.dialog::backdrop {
+  background: #161e3a88;
+}
+.dialogHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 22px 12px;
+}
+.dialogHeader h2 {
+  font-size: 1.125rem;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+.dialogHeader p {
+  color: var(--rfq-muted);
+  margin-top: 5px;
+  font-size: 0.75rem;
+}
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--rfq-border);
+}
+.tabs button {
+  min-height: 43px;
+  padding: 10px 16px;
+  border-bottom: 2px solid transparent;
+  font-size: 0.75rem;
+}
+.tabs button[aria-selected="true"] {
+  color: var(--rfq-blue);
+  border-bottom-color: var(--rfq-blue);
+  font-weight: 750;
+  background: #f8f8ff;
+}
+.dialogBody {
+  padding: 20px 22px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.dialogBody h3 {
+  font-weight: 750;
+  font-size: 0.8125rem;
+}
+.pasteArea {
+  width: 100%;
+  min-height: 180px;
+  border: 1px solid #cfd6e5;
+  border-radius: 9px;
+  background: #f9fafc;
+  padding: 12px;
+  font: inherit;
+  margin: 8px 0;
+  resize: vertical;
+}
+.sheetGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 14px;
+}
+.template {
+  border: 1px solid var(--rfq-border);
+  border-radius: 10px;
+  padding: 15px;
+}
+.template > .hint {
+  margin-top: 12px;
+}
+.template .inlineActions {
+  gap: 10px;
+  align-items: start;
+}
+.columnHeading {
+  font-size: 0.6rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.065em;
+  margin: 14px 0 6px;
+}
+.columnTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.columnTags span {
+  color: #a02a21;
+  background: #fff0ef;
+  border-radius: 5px;
+  padding: 3px 6px;
+  font-size: 0.6rem;
+  font-weight: 650;
+}
+.optionalTags span {
+  color: #495571;
+  background: #f0f2f7;
+}
+.dropzone {
+  min-height: 180px;
+  border: 1px dashed #a5afd9;
+  border-radius: 10px;
+  background: #f9faff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  text-align: center;
+  margin-top: 12px;
+}
+.dropzone > svg {
+  color: #248239;
+  width: 25px;
+  height: 25px;
+}
+.dropzone strong {
+  overflow-wrap: anywhere;
+}
+.dropzone > span {
+  font-size: 0.6875rem;
+  color: var(--rfq-muted);
+}
+.dragging {
+  background: #eeefff;
+  border-color: var(--rfq-blue);
+}
+.dialogFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid var(--rfq-border);
+  padding: 16px 22px;
+}
+.dialogFooter p {
+  color: var(--rfq-muted);
+  font-size: 0.6875rem;
+}
+.dialogFooter > div {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.importReview {
+  list-style: none;
+  margin: 14px 0;
+  display: grid;
+  gap: 10px;
+}
+.importReview li {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  background: #f7f8fc;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.importReview li > span {
+  font-size: 0.7rem;
+  color: #a33d25;
+}
+.importReview li small {
+  color: var(--rfq-muted);
+  font-size: 0.65rem;
+}
+.returnButton {
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+}

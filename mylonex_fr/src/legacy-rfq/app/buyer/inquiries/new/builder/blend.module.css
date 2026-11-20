@@ -1,0 +1,42 @@
+.blendField { min-width: 0; }
+.fibreRows { display: grid; gap: 10px; clear: both; }
+.fibreRow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(74px, 0.42fr) 36px; gap: 8px; align-items: end; }
+.fibreName, .fibrePercentage { display: grid; gap: 5px; min-width: 0; }
+.fibreName > span:first-child, .fibrePercentage > span:first-child { font-size: 0.65rem; font-weight: 600; color: var(--rfq-muted); }
+.fibreCombobox { position: relative; min-width: 0; }
+.fibreCombobox input { width: 100%; }
+.fibreSuggestions { position: absolute; z-index: 6; top: calc(100% + 4px); right: 0; left: 0; max-height: 190px; margin: 0; padding: 4px; overflow-y: auto; list-style: none; border: 1px solid var(--rfq-border); border-radius: 8px; background: #fff; box-shadow: 0 10px 24px rgb(31 41 55 / 18%); }
+.fibreSuggestions li { padding: 8px 10px; border-radius: 5px; color: var(--rfq-ink); cursor: pointer; font-size: 0.8125rem; }
+.fibreSuggestions li:hover, .fibreSuggestionActive { background: #eef3ff; color: var(--rfq-blue); }
+.fibreRow > button { width: 36px; min-height: 40px; padding: 7px; }
+.fibrePercentage input { padding-right: 24px !important; padding-left: 8px !important; }
+.blendSummary { text-align: left; }
+.legacyBlend { padding: 10px; border: 1px solid #e3d6af; background: #fff9ec; border-radius: 8px; font-size: 0.75rem; overflow-wrap: anywhere; }
+.legacyBlend button { margin-top: 8px; }
+.greigeWidthNotice { margin: 6px 0; padding: 8px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; display: flex; flex-direction: column; gap: 6px; font-size: 0.78125rem; }
+.greigeWidthText { color: #166534; }
+.greigeWidthInputWrap { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.widthConfirmLabel { font-size: 0.75rem; font-weight: 600; color: #166534; }
+.widthConfirmInput { max-width: 140px; padding: 5px 8px; border: 1px solid #86efac; border-radius: 6px; font-size: 0.8125rem; }
+.alternativesSection { display: flex; flex-direction: column; gap: 8px; margin-bottom: 6px; }
+.alternativesHeading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.alternativesTag { font-size: 0.7rem; font-weight: 700; color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+.alternativeRows { display: flex; flex-direction: column; gap: 8px; }
+.alternativeMultiCard { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; }
+.alternativeMultiHeader { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: #334155; }
+.subtleBadge { font-size: 0.6875rem; color: #64748b; font-weight: 500; }
+.alternativeRow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(95px, 0.4fr); gap: 8px; align-items: end; }
+.alternativeName, .alternativePercentage { display: grid; gap: 5px; min-width: 0; }
+.alternativeName > span:first-child, .alternativePercentage > span:first-child { font-size: 0.65rem; font-weight: 600; color: var(--rfq-muted); }
+.alternativeName input { width: 100%; border: 1px solid var(--rfq-border); border-radius: 6px; padding: 6px 10px; font-size: 0.8125rem; color: var(--rfq-text, #111827); background: #ffffff; }
+.alternativePercentage .percentageWrap { position: relative; display: flex; align-items: center; }
+.alternativePercentage input { width: 100%; border: 1px solid var(--rfq-border); border-radius: 6px; padding: 6px 24px 6px 10px !important; font-size: 0.8125rem; color: var(--rfq-text, #111827); background: #ffffff; }
+.alternativePercentage .unit { position: absolute; right: 8px; font-size: 0.75rem; color: var(--rfq-muted, #6b7280); pointer-events: none; }
+.alternativesStatus { font-size: 0.75rem; margin-top: 2px; }
+.alternativesPrompt { color: #b45309; }
+.alternativesComplete { color: #15803d; font-weight: 600; }
+.alternativesError { color: #b91c1c; font-weight: 600; }
+@media (max-width: 540px) {
+  .fibreRow { grid-template-columns: minmax(0, 1fr) 80px 36px; gap: 6px; }
+  .fibreRow input { font-size: 0.8125rem; }
+}

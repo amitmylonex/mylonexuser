@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400..800;1,400..800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-body: 'Epilogue', sans-serif;
+  --font-heading: 'Epilogue', sans-serif;
+  --color-ink: 15 23 42;
+  --color-canvas: 246 248 252;
+  --color-surface: 255 255 255;
+  --color-primary: 47 95 227;
+  --color-brand-deep: 23 56 167;
+  --color-secondary: 30 41 59;
+  --color-accent: 245 158 11;
+  --color-muted: 100 116 139;
+  --color-success: 22 163 74;
+  --color-destructive: 220 38 38;
+  --color-warning: 234 179 8;
+  --color-glass: 255 255 255;
+  --color-glass-border: 226 232 240;
+  --color-border: 203 213 225;
+  --color-border-strong: 148 163 184;
+  --background: rgb(var(--color-canvas));
+  --foreground: rgb(var(--color-ink));
+
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: var(--font-body), "Epilogue", sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading), "Epilogue", sans-serif;
+    color: rgb(var(--color-ink));
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 3.4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 2.1vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: clamp(1.2rem, 1.6vw, 1.55rem);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  ::selection {
+    background: rgba(47, 95, 227, 0.2);
+    color: rgb(var(--color-ink));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .animate-fade-up,
+    .animate-float-slow,
+    .animate-float-slower,
+    .animate-pulse-soft,
+    .animate-shimmer {
+      animation: none;
+    }
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply min-h-screen bg-canvas text-ink;
+  }
+
+  .container-shell {
+    @apply mx-auto w-full max-w-6xl px-6;
+  }
+
+  .section-shell {
+    @apply py-16 sm:py-20;
+  }
+
+  .card {
+    @apply rounded-2xl border border-border bg-surface shadow-sm;
+  }
+
+  .card-glass {
+    @apply rounded-2xl border border-glass-border/60 bg-glass/70 shadow-elegant backdrop-blur;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition duration-150;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white shadow-sm hover:brightness-105 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:brightness-100;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary text-white hover:bg-secondary/90 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/40 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply btn border border-border bg-transparent text-ink hover:bg-ink/5;
+  }
+
+  .btn-outline {
+    @apply btn border border-border bg-surface text-ink hover:bg-ink/5;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-surface/80 px-3 py-1 text-xs font-semibold text-ink/80 shadow-sm;
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded-full border border-border bg-surface/70 px-3 py-1 text-xs font-semibold text-ink/70;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+  }
+
+  .label {
+    @apply text-xs font-semibold uppercase tracking-[0.15em] text-muted;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-ink placeholder:text-muted/80 transition duration-150 hover:border-border-strong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-muted;
+  }
+
+  .textarea {
+    @apply w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-ink placeholder:text-muted/80 transition duration-150 hover:border-border-strong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-muted;
+  }
+
+  .select {
+    @apply w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-ink placeholder:text-muted/80 transition duration-150 hover:border-border-strong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-muted;
+  }
+
+  .nav-link {
+    @apply text-sm font-medium text-ink/70 transition hover:text-ink;
+  }
+
+  /* Gradient text — applies a primary gradient to text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, rgb(var(--color-primary)) 0%, #5c7ef5 58%, rgb(var(--color-accent)) 100%);
+  }
+
+  /* Nav underline hover effect — animated underline on hover */
+  .nav-link-animated {
+    @apply relative text-sm font-medium text-ink/70 transition-colors duration-200 hover:text-ink;
+  }
+
+  .nav-link-animated::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 h-[2px] w-0 bg-primary transition-all duration-300;
+  }
+
+  .nav-link-animated:hover::after {
+    @apply w-full;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-glass-bg {
+    background-color: rgb(var(--color-glass) / 0.7);
+  }
+
+  .border-glass-border {
+    border-color: rgb(var(--color-glass-border) / 0.6);
+  }
+}
+

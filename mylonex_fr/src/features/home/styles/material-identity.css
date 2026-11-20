@@ -1,0 +1,23 @@
+.landing-root .identity-root { background: var(--landing-bg-secondary); position: relative; overflow: hidden; }
+.landing-root .material-passport { position: relative; width: 100%; max-width: 520px; margin-inline: auto; background: #fbfcff; border: 1px solid #cad6e6; border-radius: 12px; box-shadow: 0 24px 60px -30px #19315b55; overflow: hidden; transition: transform 250ms cubic-bezier(.25, 1, .5, 1); }
+.landing-root .passport-heading { padding: 24px; }
+.landing-root .passport-heading > p:first-child { color: var(--landing-accent); font-size: .6875rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 650; }
+.landing-root .passport-heading h3 { font-size: 1.25rem; margin-top: 12px; }
+.landing-root .passport-example-note { font-size: .75rem; color: var(--landing-text-muted); margin-top: 8px; line-height: 1.6; }
+.landing-root .passport-visual { position: relative; margin-inline: 24px; aspect-ratio: 2.1; overflow: hidden; border-radius: 4px; background: #eaf0f8; }
+.landing-root .passport-no-image { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; height: 100%; color: #4c5f7c; background-image: repeating-linear-gradient(90deg, transparent, transparent 7px, #dbe4f2 7px, #dbe4f2 8px); }
+.landing-root .passport-no-image span { font-size: .875rem; font-weight: 600; }
+.landing-root .passport-no-image p { font-size: .75rem; }
+.landing-root .passport-code-banner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; background: var(--landing-accent); color: #f8faff; margin-top: 24px; padding: 16px 24px; }
+.landing-root .passport-code-banner span { font-size: .6875rem; text-transform: uppercase; letter-spacing: .1em; }
+.landing-root .passport-code-banner strong { font-size: 1.375rem; font-weight: 600; overflow-wrap: anywhere; }
+.landing-root .passport-specs { padding: 24px; }
+.landing-root .passport-specs h4 { margin-bottom: 16px; font-size: 1rem; }
+.landing-root .passport-specs > p { font-size: .875rem; line-height: 1.7; color: var(--landing-text-muted); }
+.landing-root .spec-row { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-block: 10px; border-bottom: 1px solid #dde4ee; font-size: .8125rem; }
+.landing-root .spec-row:last-child { border-bottom: 0; }
+.landing-root .spec-row dt { color: var(--landing-text-muted); }
+.landing-root .spec-row dd { color: var(--landing-text-main); text-align: right; overflow-wrap: anywhere; font-weight: 600; text-transform: capitalize; }
+@media (prefers-reduced-motion: reduce) {
+  .landing-root .material-passport { transform: none !important; transition: none; }
+}

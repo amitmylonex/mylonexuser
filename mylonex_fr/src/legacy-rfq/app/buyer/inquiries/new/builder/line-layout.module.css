@@ -1,0 +1,173 @@
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: start;
+}
+.mainColumn,
+.lineList {
+  display: grid;
+  gap: 16px;
+}
+.process {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--rfq-border);
+  border-radius: 13px;
+  background: #fff;
+  padding: 14px 16px;
+  font-size: 0.7rem;
+  font-weight: 650;
+}
+.process li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.process b {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  flex-shrink: 0;
+  background: var(--rfq-blue);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.65rem;
+}
+.editorFieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  display: grid;
+  gap: 16px;
+}
+.lineCard {
+  border: 1px solid var(--rfq-border);
+  border-radius: 14px;
+  background: #fff;
+  scroll-margin-top: 24px;
+  overflow: hidden;
+}
+.incompleteLine {
+  border-color: #f0c3c3;
+}
+.openLine {
+  border-color: var(--rfq-blue);
+}
+.lineHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 17px 16px;
+}
+.lineNumber {
+  color: var(--rfq-muted);
+  font-size: 0.65rem;
+  font-variant-numeric: tabular-nums;
+}
+.lineTitle {
+  text-align: left;
+  overflow: hidden;
+}
+.lineTitle strong {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  font-weight: 750;
+}
+.lineTitle small {
+  display: block;
+  margin-top: 5px;
+  color: var(--rfq-muted);
+  font-size: 0.625rem;
+  line-height: 1.7;
+  font-variant-numeric: tabular-nums;
+}
+.lineActions {
+  display: flex;
+  gap: 7px;
+}
+.lineActions .primary,
+.lineActions .secondary {
+  font-size: 0.7rem;
+  padding: 7px 12px;
+}
+.iconButton {
+  width: 38px;
+  min-height: 40px;
+  padding: 8px;
+  flex-shrink: 0;
+}
+.readyBadge,
+.needsBadge {
+  border-radius: 99px;
+  padding: 4px 8px;
+  font-size: 0.6rem;
+  line-height: 1.5;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.readyBadge {
+  background: #eaf7e7;
+  color: #26742a;
+}
+.needsBadge {
+  background: #fff0ef;
+  color: #a51e20;
+}
+.lineEditor {
+  border-top: 1px solid #e9edf4;
+  padding: 18px 16px;
+  display: grid;
+  gap: 14px;
+}
+.sectionHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.sectionHeading h2,
+.sectionHeading h3 {
+  font-size: 0.8125rem;
+  font-weight: 750;
+}
+.sectionHeading > span {
+  color: var(--rfq-muted);
+  font-size: 0.625rem;
+}
+.addLine {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 50px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px dashed #a6afd4;
+  border-radius: 12px;
+  color: var(--rfq-blue);
+  font-weight: 650 !important;
+}
+.addLine span {
+  margin-left: auto;
+  color: var(--rfq-muted);
+  font-size: 0.65rem;
+}
+.destination {
+  border: 1px solid var(--rfq-border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  background: #fff;
+  display: grid;
+  gap: 16px;
+}
+.draftNotice {
+  color: var(--rfq-muted);
+  font-size: 0.6875rem;
+}

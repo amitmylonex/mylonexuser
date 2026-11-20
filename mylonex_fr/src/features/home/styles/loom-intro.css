@@ -1,0 +1,109 @@
+.landing-root .landing-loom-intro {
+  display: none;
+}
+
+.landing-root main > .landing-loom-intro[data-fabric-scene] {
+  padding: 0;
+  scroll-margin-top: 0;
+}
+
+.landing-root main > .landing-loom-intro + .landing-hero {
+  border-top: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-root[data-loom-intro] .landing-loom-intro {
+    display: block;
+    z-index: 55;
+    height: calc(100svh + var(--loom-travel));
+    margin-bottom: -100svh;
+    --loom-travel: clamp(1100px, 195svh, 1750px);
+    pointer-events: none;
+  }
+
+  .loom-intro-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 45%, #fdfdfb 12%, #e9edf4 100%);
+    opacity: var(--loom-opacity, 1);
+  }
+
+  [data-loom-intro="done"] .loom-intro-stage {
+    visibility: hidden;
+  }
+
+  .loom-intro-stage canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loom-skip,
+  .loom-cue {
+    position: absolute;
+    color: #23334d;
+    font-size: .8125rem;
+  }
+
+  .loom-skip {
+    top: max(12px, env(safe-area-inset-top));
+    right: clamp(12px, 3vw, 36px);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid #bdc8d9;
+    border-radius: 999px;
+    background: #f9fbff;
+    pointer-events: auto;
+  }
+
+  .loom-skip:hover {
+    background: #e4ecfa;
+  }
+
+  [data-loom-intro="handoff"] .loom-skip {
+    visibility: hidden;
+  }
+
+  .loom-cue {
+    left: 50%;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    width: max-content;
+    transform: translateX(-50%);
+    opacity: var(--loom-cue, 1);
+    letter-spacing: .035em;
+  }
+
+  .loom-cue span {
+    margin-inline-start: 8px;
+    color: #1738a7;
+  }
+
+  .landing-root[data-loom-intro="active"] > header {
+    visibility: hidden;
+  }
+
+  .landing-root[data-loom-intro="handoff"] > header {
+    opacity: var(--loom-handoff, 0);
+    pointer-events: none;
+    transition: none;
+  }
+
+  .landing-root[data-loom-intro="done"] > header {
+    transition-property: background-color, border-color, box-shadow;
+  }
+
+  .landing-root[data-loom-intro="handoff"] .landing-hero {
+    transform: translateY(var(--loom-hero-offset, 0px));
+  }
+
+  @media (max-width: 640px) {
+    .landing-root[data-loom-intro] .landing-loom-intro {
+      --loom-travel: clamp(880px, 145svh, 1200px);
+    }
+  }
+}

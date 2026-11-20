@@ -1,0 +1,64 @@
+.prod-infra-root {
+  background-color: var(--landing-bg-secondary);
+}
+
+.prod-visual-container {
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.1);
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* Image Parallax/Scale on Hover */
+.prod-visual-image-wrapper {
+  perspective: 1000px;
+}
+
+.prod-visual-image {
+  transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.prod-visual-container:hover .prod-visual-image {
+  transform: scale(1.05);
+}
+
+/* Technical Annotations */
+.prod-annotation-chip {
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+}
+
+.prod-annotation-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.125rem;
+}
+
+.prod-annotation-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .prod-visual-image {
+    transition: none !important;
+    transform: none !important;
+  }
+  .prod-visual-container:hover .prod-visual-image {
+    transform: none !important;
+  }
+}

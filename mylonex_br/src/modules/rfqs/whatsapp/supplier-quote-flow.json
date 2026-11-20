@@ -1,0 +1,203 @@
+{
+  "version": "6.0",
+  "routing_model": {
+    "QUOTE_SCREEN": [
+      "SAMPLING_SCREEN"
+    ],
+    "SAMPLING_SCREEN": []
+  },
+  "screens": [
+    {
+      "id": "QUOTE_SCREEN",
+      "title": "Quote Details",
+      "data": {
+        "rfq_heading": {
+          "type": "string",
+          "__example__": "Quotation for RFQ-20261024-0010"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "quote_form",
+            "init-values": {
+              "remarks": ""
+            },
+            "children": [
+              {
+                "type": "TextHeading",
+                "text": "${data.rfq_heading}"
+              },
+              {
+                "type": "TextCaption",
+                "text": "Enter pricing and production details for this RFQ."
+              },
+              {
+                "type": "TextInput",
+                "name": "price_per_m",
+                "label": "Price per metre (INR)",
+                "required": true,
+                "input-type": "number",
+                "helper-text": "Excluding GST"
+              },
+              {
+                "type": "Dropdown",
+                "name": "price_basis",
+                "label": "Price basis",
+                "required": true,
+                "data-source": [
+                  {
+                    "id": "Indicative",
+                    "title": "Indicative"
+                  },
+                  {
+                    "id": "Ex-mill",
+                    "title": "Ex-mill"
+                  }
+                ]
+              },
+              {
+                "type": "TextInput",
+                "name": "price_validity",
+                "label": "Price validity",
+                "required": true,
+                "input-type": "text",
+                "helper-text": "e.g. 48 hours, 3 days, 1 week"
+              },
+              {
+                "type": "TextInput",
+                "name": "moq_total",
+                "label": "Total MOQ (metres)",
+                "required": true,
+                "input-type": "number",
+                "helper-text": "Minimum total order quantity"
+              },
+              {
+                "type": "TextInput",
+                "name": "moq_per_colour",
+                "label": "MOQ per colour (metres)",
+                "required": true,
+                "input-type": "number",
+                "helper-text": "Minimum per colour (MCQ)"
+              },
+              {
+                "type": "TextInput",
+                "name": "lead_time_days",
+                "label": "Bulk lead time (days)",
+                "required": true,
+                "input-type": "number"
+              },
+              {
+                "type": "TextInput",
+                "name": "remarks",
+                "label": "Remarks",
+                "required": false,
+                "input-type": "text"
+              },
+              {
+                "type": "Footer",
+                "label": "Next: Sampling",
+                "on-click-action": {
+                  "name": "navigate",
+                  "next": {
+                    "type": "screen",
+                    "name": "SAMPLING_SCREEN"
+                  },
+                  "payload": {}
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "SAMPLING_SCREEN",
+      "title": "Sampling Details",
+      "terminal": true,
+      "success": true,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "sampling_form",
+            "children": [
+              {
+                "type": "TextHeading",
+                "text": "Sampling Details"
+              },
+              {
+                "type": "TextCaption",
+                "text": "Confirm sample availability, lead time and pricing."
+              },
+              {
+                "type": "RadioButtonsGroup",
+                "name": "sample_available",
+                "label": "Are samples available?",
+                "required": true,
+                "data-source": [
+                  {
+                    "id": "yes",
+                    "title": "Yes - Samples available"
+                  },
+                  {
+                    "id": "no",
+                    "title": "No - Samples need development"
+                  }
+                ]
+              },
+              {
+                "type": "TextInput",
+                "name": "sample_yardage_m",
+                "label": "Sample yardage (metres)",
+                "required": true,
+                "input-type": "number",
+                "helper-text": "Required if samples available (> 0 m)"
+              },
+              {
+                "type": "TextInput",
+                "name": "sample_lead_time_days",
+                "label": "Sample lead time (days)",
+                "required": true,
+                "input-type": "number",
+                "helper-text": "Required if samples need development (> 0 days)"
+              },
+              {
+                "type": "TextInput",
+                "name": "sampling_price",
+                "label": "Sample price per metre (INR)",
+                "required": true,
+                "input-type": "number",
+                "helper-text": "Enter 0 for free samples, or rate per metre (excl. GST)"
+              },
+              {
+                "type": "Footer",
+                "label": "Submit Quote",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "price_per_m": "${screen.QUOTE_SCREEN.form.price_per_m}",
+                    "price_basis": "${screen.QUOTE_SCREEN.form.price_basis}",
+                    "moq_total": "${screen.QUOTE_SCREEN.form.moq_total}",
+                    "moq_per_colour": "${screen.QUOTE_SCREEN.form.moq_per_colour}",
+                    "lead_time_days": "${screen.QUOTE_SCREEN.form.lead_time_days}",
+                    "remarks": "${screen.QUOTE_SCREEN.form.remarks}",
+                    "sample_available": "${form.sample_available}",
+                    "sample_yardage_m": "${form.sample_yardage_m}",
+                    "sample_lead_time_days": "${form.sample_lead_time_days}",
+                    "sampling_price": "${form.sampling_price}",
+                    "price_validity": "${screen.QUOTE_SCREEN.form.price_validity}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

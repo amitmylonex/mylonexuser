@@ -1,0 +1,34 @@
+{
+  "name": "mylonex_br",
+  "version": "1.0.0",
+  "description": "MyloNex Backend API",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "postinstall": "prisma generate",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^11.4.3",
+    "@prisma/client": "^6.19.2",
+    "@supabase/supabase-js": "^2.119.0",
+    "dotenv": "^18.0.10",
+    "fastify": "^5.12.8",
+    "openai": "^7.57.0",
+    "sharp": "^0.35.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "prisma": "^6.19.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

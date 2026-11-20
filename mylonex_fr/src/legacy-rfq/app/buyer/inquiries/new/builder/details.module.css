@@ -1,0 +1,146 @@
+.extras {
+  display: grid;
+  gap: 22px;
+}
+.colours {
+  display: grid;
+  gap: 12px;
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+}
+.colourRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.7fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 7px;
+}
+.colourRow .fieldLabel {
+  font-size: 0.55rem;
+  margin-bottom: 6px;
+}
+.dashedButton {
+  border: 1px dashed #aeb6df;
+  background: #fdfdff;
+  color: #2c32de;
+  font-size: 0.65rem !important;
+  padding: 8px;
+}
+.inlineActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.section {
+  display: grid;
+  gap: 10px;
+}
+.section h3 {
+  font-weight: 750;
+  font-size: 0.8125rem;
+}
+.section h3 > span {
+  color: var(--rfq-muted);
+  font-weight: 400;
+  font-size: 0.75rem;
+}
+.technicalGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 12px;
+}
+.twoColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.moreDetails {
+  border: 1px solid var(--rfq-border);
+  border-radius: 10px;
+  background: #f7f8fc;
+  padding: 13px;
+}
+.moreDetails summary {
+  cursor: pointer;
+  font-weight: 750;
+}
+.moreDetails summary span {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: var(--rfq-muted);
+}
+.moreDetails > div {
+  margin-top: 15px;
+}
+.referenceBox {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.photos > div {
+  position: relative;
+}
+.photos img {
+  border-radius: 8px;
+  border: 1px solid var(--rfq-border);
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+}
+.photos button {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  border: 1px solid #cfd6e5;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+}
+.fileInput {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+.importWarnings,
+.validation,
+.original {
+  font-size: 0.6875rem;
+  border-radius: 8px;
+  padding: 10px 12px;
+  overflow-wrap: anywhere;
+}
+.importWarnings {
+  background: #fff9e9;
+  color: #785000;
+}
+.validation {
+  background: #fff1f0;
+  color: #9c2028;
+}
+.validation ul {
+  padding-left: 18px;
+  list-style: disc;
+}
+.original {
+  border: 1px solid var(--rfq-border);
+  color: var(--rfq-muted);
+}
+.original p,
+.importWarnings p {
+  margin-top: 8px;
+  white-space: pre-wrap;
+}

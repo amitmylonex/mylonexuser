@@ -1,0 +1,10 @@
+.workspace { display: grid; gap: 24px; padding: 24px; background: var(--portal-surface, #fff); border: 1px solid #dfe3eb; border-radius: 20px; }
+.workspace h2 { margin: 0; font-size: 1.25rem; }
+.workspace header p { margin: 8px 0 0; color: #667085; font-size: .875rem; }
+.review { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 24px; align-items: start; }
+.preview { width: 100%; height: auto; max-height: 520px; object-fit: contain; border-radius: 8px; }
+.text { display: grid; gap: 16px; min-width: 0; }
+.consent { display: flex; gap: 12px; align-items: start; font-size: .875rem; }
+.consent input { width: auto; }
+.workspace button { justify-self: start; }
+@media (max-width: 640px) { .workspace { padding: 16px; } .review { grid-template-columns: minmax(0, 1fr); } .preview { max-height: 240px; } }

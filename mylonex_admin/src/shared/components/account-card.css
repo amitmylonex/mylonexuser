@@ -1,0 +1,19 @@
+.auth-page { @apply min-h-screen bg-gradient-hero px-4 py-8 sm:px-6 sm:py-12; }
+.auth-content { @apply mx-auto grid w-full max-w-md gap-5; }
+.auth-brand { @apply flex justify-center; }
+.auth-card { @apply rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6; }
+.auth-card h1 { @apply mb-2 text-2xl font-semibold sm:text-3xl; }
+.auth-card p { @apply mb-4 text-sm text-ink/70; }
+.auth-card fieldset { @apply grid min-w-0 gap-4; }
+.auth-card label { @apply grid gap-1.5 text-sm font-medium text-ink/70; }
+.auth-card .consent { @apply flex items-start gap-2; }
+.auth-card .consent input { @apply mt-0.5 h-4 w-4 shrink-0 accent-primary; }
+.auth-card a { @apply font-semibold text-primary hover:underline; }
+.auth-card a:focus-visible, .auth-card .consent input:focus-visible, .auth-brand a:focus-visible {
+  @apply outline outline-2 outline-offset-2 outline-primary;
+}
+.auth-card .error { @apply rounded-xl border border-destructive/30 bg-destructive/10 p-3 text-destructive; }
+.auth-card .switch { @apply mb-0 mt-4 text-center; }
+.auth-card dl { @apply mb-4 break-words text-sm; }
+.auth-card dt { @apply font-semibold; }
+.auth-card dd { @apply mb-2 text-muted; }

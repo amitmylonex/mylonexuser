@@ -1,0 +1,63 @@
+.landing-root [data-fabric-scene] { position: relative; isolation: isolate; scroll-margin-top: 88px; }
+.landing-root [data-fabric-scene] > .container-shell { position: relative; z-index: 1; }
+.landing-root .fabric-ribbon { position: absolute; width: 380px; height: 570px; z-index: 0; pointer-events: none; user-select: none; }
+.landing-root .fabric-ribbon-art { width: 100%; height: 100%; object-fit: contain; }
+.landing-root .fabric-ribbon-hero { right: -28%; top: -14%; width: 90%; height: 134%; z-index: 1; }
+.landing-root .hero-fabric-photo { z-index: 2; }
+.landing-root .hero-fabric-detail, .landing-root .hero-image-note { z-index: 3; }
+.landing-root .hero-follow-link { display: inline-flex; align-items: center; gap: 24px; margin-top: 24px; min-height: 44px; font-size: .75rem; color: var(--landing-accent); text-decoration: underline; text-underline-offset: 6px; }
+.landing-root .fabric-ribbon-discovery { top: -110px; right: -230px; transform: rotate(32deg); opacity: .75; }
+.landing-root .fabric-ribbon-passport { top: 10%; left: -320px; transform: rotate(-30deg); opacity: .85; }
+.landing-root .fabric-ribbon-production { top: -80px; right: -300px; transform: rotate(26deg); opacity: .8; }
+.landing-root .fabric-ribbon-finale { top: -120px; left: -320px; transform: rotate(20deg); opacity: .65; }
+.landing-root .landing-finale { overflow: clip; background: #edf3fc; }
+.landing-root .landing-finale > section { position: relative; z-index: 1; background: transparent; }
+.landing-root .motion-fade-in[data-in-view="true"] { animation: none; }
+.landing-root h2[data-detail-seen="true"] { animation: textile-heading-settle 450ms cubic-bezier(.25, 1, .5, 1) both; }
+.landing-root .production-film { position: relative; width: 100%; }
+.landing-root .production-film-frame { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid #cbd8e9; border-radius: 8px; background: #152b48; }
+.landing-root .production-film video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.landing-root .production-film-toggle { position: absolute; left: 24px; bottom: 60px; display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 12px 20px; border: 1px solid #d9e7fb88; border-radius: 999px; background: #102744e6; color: #f5f8ff; font-size: .8125rem; box-shadow: 0 8px 20px #06152d33; }
+.landing-root .production-film-toggle.is-playing { opacity: .8; }
+.landing-root .production-film-toggle:hover, .landing-root .production-film-toggle:focus-visible { opacity: 1; background: #1738a7; }
+.landing-root .production-film figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; padding-top: 16px; color: var(--landing-text-muted); font-size: .6875rem; line-height: 1.75; }
+.landing-root .production-film figcaption a { text-decoration: underline; text-underline-offset: 3px; }
+.landing-root .production-film figcaption a:hover { color: var(--landing-accent); }
+.landing-root .swatch-depth { display: flex; flex-direction: column; height: 100%; }
+@media (min-width: 1024px) {
+  .landing-root[data-scroll-motion="on"] .fabric-ribbon-art { transform: translateY(var(--ribbon-y, 0px)) rotate(var(--ribbon-turn, 0deg)); }
+  .landing-root[data-scroll-motion="on"] .fabric-ribbon-hero { opacity: calc(0.55 + var(--ribbon-handoff, 1) * 0.45); transition: opacity 160ms ease-out; }
+  .landing-root[data-scroll-motion="on"] .hero-fabric-photo { transform: translateY(var(--image-parallax, 0px)); }
+  .landing-root[data-scroll-motion="on"] .production-film video { transform: translateY(var(--image-parallax, 0px)) scale(1.08); }
+  .landing-root[data-scroll-motion="on"] .discovery-root .fabric-swatch { translate: calc(var(--fan-shift, 0px) * var(--fan-direction, 0)) 0; }
+  .landing-root .discovery-root .fabric-swatch[data-swatch-order="0"],
+  .landing-root .discovery-root .fabric-swatch[data-swatch-order="1"],
+  .landing-root .discovery-root .fabric-swatch[data-swatch-order="3"] { --fan-direction: 1; }
+  .landing-root .discovery-root .fabric-swatch[data-swatch-order="2"],
+  .landing-root .discovery-root .fabric-swatch[data-swatch-order="4"] { --fan-direction: -1; }
+  .landing-root[data-scroll-motion="on"] .passport-specs[data-detail-seen="true"] .spec-row { animation: passport-field-settle 500ms cubic-bezier(.25, 1, .5, 1) both; }
+  .landing-root .passport-specs .spec-row:nth-child(2) { animation-delay: 80ms !important; }
+  .landing-root .passport-specs .spec-row:nth-child(3) { animation-delay: 160ms !important; }
+  .landing-root .passport-specs .spec-row:nth-child(4) { animation-delay: 240ms !important; }
+  .landing-root .passport-specs .spec-row:nth-child(5) { animation-delay: 320ms !important; }
+  .landing-root [data-scene-near="true"] .fabric-ribbon-art { will-change: transform; }
+}
+@media (max-width: 1279px) {
+  .landing-root .fabric-ribbon:not(.fabric-ribbon-hero) { display: none; }
+}
+@media (max-width: 1023px) {
+  .landing-root .fabric-ribbon-hero { right: -20%; }
+  .landing-root .production-film-toggle { left: 16px; bottom: 54px; }
+}
+@media (max-width: 479px) {
+  .landing-root .hero-follow-link { margin-top: 12px; font-size: .8125rem; }
+  .landing-root .production-film figcaption { font-size: .75rem; }
+  .landing-root .production-film figcaption a { display: inline-flex; align-items: center; min-height: 44px; }
+}
+@keyframes textile-heading-settle { from { opacity: .8; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes passport-field-settle { from { opacity: .6; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .landing-root .fabric-ribbon-art, .landing-root .hero-fabric-photo > img,
+  .landing-root .production-film video { transform: none !important; }
+  .landing-root .fabric-swatch { translate: none !important; }
+}

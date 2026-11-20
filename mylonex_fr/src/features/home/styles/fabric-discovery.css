@@ -1,0 +1,30 @@
+.landing-root .discovery-root { background: var(--landing-bg); position: relative; overflow: hidden; }
+.landing-root .fabric-swatch { display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 1px solid #d0dbea; border-radius: 8px; background: #fbfcff; transition: border-color 200ms, box-shadow 200ms; }
+.landing-root .fabric-swatch.is-featured { grid-column: span 2; grid-row: span 2; }
+.landing-root .fabric-swatch:hover, .landing-root .fabric-swatch:focus-visible { border-color: #6b86b6; box-shadow: 0 12px 24px -16px #18386766; }
+.landing-root .fabric-swatch-image { position: relative; aspect-ratio: 1.6; overflow: hidden; background: #e7edf6; }
+.landing-root .is-featured .fabric-swatch-image { flex: 1; min-height: 260px; }
+.landing-root .fabric-swatch-image img { transition: transform 300ms cubic-bezier(.25, 1, .5, 1); }
+.landing-root .fabric-swatch:hover img { transform: scale(1.025); }
+.landing-root .swatch-no-image { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background-image: repeating-linear-gradient(45deg, transparent, transparent 6px, #dce5f1 6px, #dce5f1 7px); color: #49607f; }
+.landing-root .swatch-no-image > span { font-size: .875rem; text-transform: capitalize; }
+.landing-root .swatch-no-image > p { font-size: .75rem; }
+.landing-root .swatch-arrow { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid #c9d6e8; border-radius: 50%; background: #f8faff; color: var(--landing-accent); }
+.landing-root .swatch-metadata { padding: 20px; }
+.landing-root .swatch-reference { color: var(--landing-accent); font-size: .625rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 650; }
+.landing-root .swatch-metadata h3 { margin-block: 8px; font-size: 1rem; font-weight: 650; overflow-wrap: anywhere; }
+.landing-root .is-featured .swatch-metadata h3 { font-size: 1.5rem; }
+.landing-root .swatch-composition { color: var(--landing-text-muted); font-size: .8125rem; line-height: 1.65; }
+.landing-root .swatch-specs { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; font-size: .75rem; color: var(--landing-text-muted); text-transform: capitalize; }
+@media (max-width: 1023px) {
+  .landing-root .fabric-swatch.is-featured { grid-column: span 2; grid-row: auto; }
+  .landing-root .is-featured .fabric-swatch-image { aspect-ratio: 2.4; min-height: 200px; flex: none; }
+}
+@media (max-width: 639px) {
+  .landing-root .fabric-swatch { width: 280px; }
+  .landing-root .is-featured .fabric-swatch-image { aspect-ratio: 1.6; min-height: 0; flex: none; }
+  .landing-root .is-featured .swatch-metadata h3 { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-root .fabric-swatch, .landing-root .fabric-swatch-image img { transition: none; transform: none; }
+}

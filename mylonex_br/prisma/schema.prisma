@@ -1,0 +1,446 @@
+// Auth projection of the legacy database. Do not use migrate or db push with this schema.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+enum UserRole {
+  BUYER
+  SUPPLIER
+  ADMIN
+}
+
+enum SupplierStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
+}
+
+model User {
+  id        String   @id // matches Supabase auth.users.id (UUID)
+  email     String   @unique
+  role      UserRole
+  fullName  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  buyerProfile    BuyerProfile?
+  supplierProfile SupplierProfile?
+  requests CommunicationRequest[]
+  rfqBatches RfqBatch[]
+
+}
+
+model SupplierProfile {
+  id          String         @id @default(uuid())
+  userId      String         @unique
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName String
+  phone String?
+  phoneCountryCode String? @default("91") @map("phone_country_code")
+  dispatchLocation String? @map("dispatch_location")
+  whatsappConsent Boolean @default(false) @map("whatsapp_consent")
+  whatsappConsentAt DateTime? @map("whatsapp_consent_at")
+  updatedAt   DateTime       @updatedAt
+  catalogs SupplierCatalog[]
+  wovenProducts WovenProduct[]
+  city String?
+  matches CommunicationRequestMatch[]
+  responses CommunicationRequestResponse[]
+  status      SupplierStatus @default(PENDING)
+}
+
+model BuyerProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company   String?
+  phone     String?
+  gstNumber String?  @map("gst_number") // optional GST/tax ID
+  city      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CatalogSourceType {
+  supplier_catalog
+  woven_product
+  supplier_capability
+  manual // admin-created match for zero-match RFQs
+}
+
+enum CommunicationRequestMatchStatus {
+  PENDING_ADMIN_REVIEW
+  FORWARDED_TO_SUPPLIER
+  REJECTED_BY_ADMIN
+  REJECTED_BY_SUPPLIER
+}
+
+enum CommunicationRequestResponseStatus {
+  PENDING_ADMIN_REVIEW
+  APPROVED_FOR_REQUESTER
+  REJECTED_BY_ADMIN
+  ACCEPTED_BY_BUYER
+}
+
+enum SupplierProductionCycle {
+  ready_stock
+  running_production
+  made_to_order
+}
+
+model SupplierCatalog {
+  id String @id @default(uuid())
+
+  mylonexCode String? @unique @map("mylonex_code")
+
+  supplierId         String            @map("supplier_id")
+  supplier           SupplierProfile   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  fabricCollectionId String?           @map("fabric_collection_id")
+
+  fabricName           String                    @map("fabric_name")
+  fabricType           SupplierCatalogFabricType? @default(cotton) @map("fabric_type")
+  compositionText      String?                   @map("composition_text")
+  gsm                  Int                       @default(100)
+  widthInches          Decimal?                  @map("width_inches") @db.Decimal(8, 2)
+  construction         String?
+  weaveType            String                    @default("plain") @map("weave_type")
+  fabricState          SupplierFabricState?      @map("fabric_state")
+  dyeMethod            SupplierDyeMethod?        @map("dye_method")
+  productionCycle      SupplierProductionCycle   @default(made_to_order) @map("production_cycle")
+  stockQuantity        Int                       @default(0) @map("stock_quantity")
+  pricePerMeter        Decimal                   @map("price_per_meter") @db.Decimal(12, 2)
+  minimumOrderQuantity Int                       @default(1000) @map("minimum_order_quantity")
+  leadTimeDays         Int                       @default(21) @map("lead_time_days")
+  city                 String?
+  locationState        String?                   @map("location_state")
+  description          String?
+  supplierType         SupplierType              @default(mill) @map("supplier_type")
+  materialPurity       String?                   @default("pure") @map("material_purity") // null when not supplied by the Excel importer
+  blendDescription     String?                   @map("blend_description") // free-text blend details when materialPurity is "blended"
+  isActive             Boolean                   @default(true) @map("is_active")
+  colorOptions         String[]                  @default([]) @map("color_options")
+  finishOptions        String[]                  @default([]) @map("finish_options")
+  imageUrls            String[]                  @default([]) @map("image_urls")
+  shadeVariants        Json                      @default("[]") @map("shade_variants")
+
+  weightUnit         String?  @map("weight_unit")
+  weightValue        Decimal? @map("weight_value") @db.Decimal(8, 2)
+  widthUnit          String?  @map("width_unit")
+  widthValue         Decimal? @map("width_value") @db.Decimal(8, 2)
+  sampleAvailability String?  @map("sample_availability")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([supplierId])
+  @@index([fabricCollectionId])
+  @@index([isActive])
+  @@map("supplier_catalog")
+}
+
+model CommunicationRequest {
+  id String @id @default(uuid())
+
+  buyerId       String   @map("buyer_id")
+  buyer         User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  requesterRole UserRole @default(BUYER) @map("requester_role")
+
+  requestType          String    @default("quote") @map("request_type")
+  buyerMessage         String    @map("buyer_message")
+  fabricName           String    @map("fabric_name")
+  quantity             Int
+  deliveryPincode      String    @map("delivery_pincode")
+  targetPriceMin       Float?    @map("target_price_min")
+  targetPriceMax       Float?    @map("target_price_max")
+  requiredDeliveryDate DateTime? @map("required_delivery_date")
+  productionCycle      String?   @map("production_cycle")
+
+  rfqNumber      String   @unique @map("rfq_number")
+  autoRoutedTo   String   @map("auto_routed_to")
+  routingTargets String[] @default([]) @map("routing_targets")
+  routingReason  String   @map("routing_reason")
+
+  status   String @default("pending")
+  priority String @default("normal")
+
+  anonymizedBuyerReference String  @map("anonymized_buyer_reference")
+  buyerIdentityDisclosed   Boolean @default(false) @map("buyer_identity_disclosed")
+
+  buyerImageUrls String[]                    @default([]) @map("buyer_image_urls")
+  contactPhone   String?                     @map("contact_phone")
+  specPayload    Json                        @map("spec_payload")
+  createdAt      DateTime                    @default(now()) @map("created_at")
+  updatedAt      DateTime                    @updatedAt @map("updated_at")
+  matches        CommunicationRequestMatch[]
+
+  @@index([buyerId])
+  @@index([buyerId, requesterRole])
+  @@map("communication_requests")
+}
+
+model CommunicationRequestMatch {
+  id                     String               @id @default(uuid())
+  communicationRequestId String               @map("communication_request_id")
+  communicationRequest   CommunicationRequest @relation(fields: [communicationRequestId], references: [id], onDelete: Cascade)
+
+  supplierId String          @map("supplier_id")
+  supplier   SupplierProfile @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  sourceType            CatalogSourceType               @map("source_type")
+  sourceId              String                          @map("source_id")
+  score                 Float
+  explanation           String
+  listingSnapshot       Json                            @map("listing_snapshot")
+  routeMeta             Json?                           @map("route_meta")
+  status                CommunicationRequestMatchStatus @default(PENDING_ADMIN_REVIEW)
+  adminReviewedAt       DateTime?                       @map("admin_reviewed_at")
+  adminReviewedByUserId String?                         @map("admin_reviewed_by_user_id")
+  adminReviewNote       String?                         @map("admin_review_note")
+  forwardedAt           DateTime?                       @map("forwarded_at")
+
+  // ── Supplier decline fields (populated when supplier rejects inbound RFQ) ──
+  supplierRejectionReason  String?   @map("supplier_rejection_reason")
+  supplierRejectedAt       DateTime? @map("supplier_rejected_at")
+  supplierRejectedByUserId String?   @map("supplier_rejected_by_user_id")
+
+  // ── WhatsApp RFQ notification & status tracking ──
+  whatsappMessageId   String?   @map("whatsapp_message_id")
+  whatsappStatus      String?   @map("whatsapp_status")
+  whatsappSentAt      DateTime? @map("whatsapp_sent_at")
+  whatsappDeliveredAt DateTime? @map("whatsapp_delivered_at")
+  whatsappReadAt      DateTime? @map("whatsapp_read_at")
+  whatsappLastError   String?   @map("whatsapp_last_error")
+  reminderCount       Int       @default(0) @map("reminder_count")
+  lastReminderSentAt  DateTime? @map("last_reminder_sent_at")
+  quoteDeadlineAt     DateTime? @map("quote_deadline_at")
+
+  createdAt DateTime                      @default(now()) @map("created_at")
+  updatedAt DateTime                      @updatedAt @map("updated_at")
+  response  CommunicationRequestResponse?
+
+  @@unique([communicationRequestId, sourceType, sourceId, supplierId])
+  @@index([communicationRequestId])
+  @@index([supplierId])
+  @@index([status, createdAt])
+  @@index([adminReviewedByUserId])
+  @@index([whatsappMessageId])
+  @@map("communication_request_matches")
+}
+
+model CommunicationRequestResponse {
+  id             String                    @id @default(uuid())
+  requestMatchId String                    @unique @map("request_match_id")
+  requestMatch   CommunicationRequestMatch @relation(fields: [requestMatchId], references: [id], onDelete: Cascade)
+
+  supplierId String          @map("supplier_id")
+  supplier   SupplierProfile @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  price                 Decimal                            @db.Decimal(12, 2)
+  supplierOriginalPrice Decimal?                           @map("supplier_original_price") @db.Decimal(12, 2) // Snapshot of supplier's original price before admin markup; null = price was never admin-edited
+  leadTimeDays          Int                                @map("lead_time_days")
+  moq                   Int? // minimum order quantity for this quote
+  dispatchLocation      String?                            @map("dispatch_location")
+  sampleAvailability    String?                            @map("sample_availability") // optional
+  additionalNotes       String?                            @map("additional_notes") // optional extended notes
+  totalValueEstimate    Json?                              @map("total_value_estimate") // {gst, delivery, otherCharges, total}
+  quoteType             String                             @default("indicative") @map("quote_type") // "exact" or "indicative"
+  status                CommunicationRequestResponseStatus @default(PENDING_ADMIN_REVIEW)
+  adminReviewedAt       DateTime?                          @map("admin_reviewed_at")
+  adminReviewedByUserId String?                            @map("admin_reviewed_by_user_id")
+  adminReviewNote       String?                            @map("admin_review_note")
+  submissionRevision    Int                                @default(1) @map("submission_revision")
+  responseImageUrls     String[]                           @default([]) @map("response_image_urls") // optional fabric images attached to the quote
+  notes                 String?
+
+  // ── Buyer decision fields (populated when buyer accepts/rejects an approved quote) ──
+  buyerDecision       String?   @map("buyer_decision") // "accepted" | "rejected"
+  buyerDecisionReason String?   @map("buyer_decision_reason")
+  buyerDecisionAt     DateTime? @map("buyer_decision_at")
+
+  // ── Delivery tracking (populated when admin marks as delivered) ──
+  deliveredAt       DateTime? @map("delivered_at")
+  deliveredByUserId String?   @map("delivered_by_user_id")
+
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([supplierId])
+  @@index([status, createdAt])
+  @@index([adminReviewedByUserId])
+  @@map("communication_request_responses")
+}
+
+
+model RfqBatch {
+  id               String   @id @default(uuid())
+  buyerId          String   @map("buyer_id")
+  buyer            User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  idempotencyKey   String   @map("idempotency_key")
+  payloadHash      String   @map("payload_hash")
+  result           Json
+  claimedLineIds   String[] @default([]) @map("claimed_line_ids")
+  completedLineIds String[] @default([]) @map("completed_line_ids")
+  failedLineIds    String[] @default([]) @map("failed_line_ids")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@unique([buyerId, idempotencyKey])
+  @@map("rfq_batches")
+}
+
+model WovenProduct {
+  id String @id @default(uuid())
+
+  supplierId String          @map("supplier_id")
+  supplier   SupplierProfile @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  structure         String              @default("woven")
+  materialFamily    WovenMaterialFamily @map("material_family")
+  compositionText   String              @map("composition_text")
+  weaveType         WovenWeaveType      @map("weave_type")
+  finishCategory    WovenFinishCategory @map("finish_category")
+  gsmFinished       Int                 @map("gsm_finished")
+  widthFinishedIn   Decimal             @map("width_finished_in") @db.Decimal(8, 2)
+  listingType       ListingType         @default(ready_stock) @map("listing_type")
+  priceInrPerM      Decimal             @map("price_inr_per_m") @db.Decimal(12, 2)
+  moqMeters         Int                 @default(500) @map("moq_meters")
+  leadTimeDays      Int                 @default(21) @map("lead_time_days")
+  millName          String?             @map("mill_name")
+  city              String?
+  locationState     String?             @map("location_state")
+  notes             String?
+  images            String[]            @default([])
+  constructionLabel String              @map("construction_label")
+  specSummary       String              @map("spec_summary")
+  isActive          Boolean             @default(true) @map("is_active")
+
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
+  specs     WovenProductSpec[]
+
+  @@index([supplierId])
+  @@index([isActive])
+  @@map("woven_products")
+}
+
+model WovenProductSpec {
+  id        String       @id @default(uuid())
+  productId String       @map("product_id")
+  product   WovenProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  specKey      String   @map("spec_key")
+  valueNum     Decimal? @map("value_num") @db.Decimal(14, 4)
+  valueText    String?  @map("value_text")
+  unit         String?
+  system       String?
+  isRequired   Boolean  @default(false) @map("is_required")
+  displayGroup String?  @map("display_group")
+  source       String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([productId, specKey])
+  @@index([productId])
+  @@map("woven_product_specs")
+}
+
+enum WovenMaterialFamily {
+  cellulosic_cotton
+  cellulosic_bast
+  cellulosic_manmade
+  synthetic
+  wool_silk
+}
+
+enum WovenWeaveType {
+  poplin
+  twill
+  satin
+  oxford
+  dobby
+  canvas
+  denim
+  ripstop
+  twill_2_1
+  twill_3_1
+  other
+}
+
+enum WovenFinishCategory {
+  greige
+  dyed
+  printed
+  finished
+  coated
+  laminated
+}
+
+enum ListingType {
+  ready_stock
+  running_production
+  made_to_order
+}
+
+enum SupplierCatalogFabricType {
+  cotton
+  polyester
+  silk
+  wool
+  linen
+  synthetic
+  blended
+}
+
+enum SupplierFabricState {
+  greige
+  rfd
+  dyed
+  printed
+}
+
+enum SupplierDyeMethod {
+  yarn_dyed
+  piece_dyed
+}
+
+enum SupplierType {
+  mill
+  dealer
+  manufacturer
+  trader
+  buying_house
+}
+
+model IndiaCityState {
+  id              String   @id @default(uuid())
+  city            String
+  state           String
+  country         String   @default("India")
+  cityNormalized  String   @map("city_normalized")
+  stateNormalized String   @map("state_normalized")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@unique([cityNormalized, stateNormalized, country])
+  @@index([stateNormalized, cityNormalized])
+  @@index([country, stateNormalized])
+  @@map("india_city_states")
+}
+
+model WhatsAppWebhookEvent {
+  id        String   @id @map("id") // Meta message ID (wamid)
+  eventType String   @default("message") @map("event_type")
+  status    String   @default("PROCESSING") @map("status") // PROCESSING | PROCESSED | FAILED
+  error     String?  @map("error")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("whatsapp_webhook_events")
+}

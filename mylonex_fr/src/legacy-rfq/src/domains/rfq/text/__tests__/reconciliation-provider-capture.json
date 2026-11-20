@@ -1,0 +1,171 @@
+[
+  {
+    "name": "pv",
+    "source": "20's P/V (65/35) x 20's P/V (65/35) x 100 x 56 x 63\" Griege width, 2/2 Twill",
+    "raw": {
+      "fabrics": [
+        {
+          "source": "20's P/V (65/35) x 20's P/V (65/35) x 100 x 56 x 63\" Griege width, 2/2 Twill",
+          "fields": [
+            {
+              "field": "count",
+              "value": "20's × 20's",
+              "sourcePhrases": [
+                "20's P/V (65/35) x 20's P/V (65/35)"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "construction",
+              "value": "100 × 56",
+              "sourcePhrases": [
+                "100 x 56"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "width",
+              "value": "63\"",
+              "sourcePhrases": [
+                "63\" Griege width"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "weaveType",
+              "value": "2/2 Twill",
+              "sourcePhrases": [
+                "2/2 Twill"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "blend",
+              "value": "65% Polyester 35% Viscose",
+              "sourcePhrases": [
+                "20's P/V (65/35) x 20's P/V (65/35)"
+              ],
+              "interpretation": "explicit"
+            }
+          ],
+          "yarns": [
+            {
+              "direction": "warp",
+              "source": "20's P/V (65/35)",
+              "blend": "65% Polyester 35% Viscose"
+            },
+            {
+              "direction": "weft",
+              "source": "20's P/V (65/35)",
+              "blend": "65% Polyester 35% Viscose"
+            }
+          ],
+          "alternatives": [],
+          "issues": []
+        }
+      ]
+    }
+  },
+  {
+    "name": "combined",
+    "source": "A) 16 OE × 16 OE / 96 × 60, 65” RS, 2/2 Matty (OL) –\nOPTION 1 100% GOTS NOP-certified organic cotton\nOPTION 2 BCI cotton.\nOPTION 3 Regen Agri Cotton\n\nB) 20 CCW × 20 CCW / 96 × 48, 3/1 Drill –\nOPTION 1 100% GOTS NOP-certified organic cotton\nOPTION 2 BCI cotton.\nOPTION 3 Regen Agri Cotton",
+    "raw": {
+      "fabrics": [
+        {
+          "source": "A) 16 OE × 16 OE / 96 × 60, 65” RS, 2/2 Matty (OL) –\nOPTION 1 100% GOTS NOP-certified organic cotton\nOPTION 2 BCI cotton.\nOPTION 3 Regen Agri Cotton",
+          "fields": [
+            {
+              "field": "count",
+              "value": "16 OE × 16 OE",
+              "sourcePhrases": [
+                "16 OE × 16 OE"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "construction",
+              "value": "96 × 60",
+              "sourcePhrases": [
+                "96 × 60"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "width",
+              "value": "65\" RS",
+              "sourcePhrases": [
+                "65” RS"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "weaveType",
+              "value": "2/2 Matty",
+              "sourcePhrases": [
+                "2/2 Matty (OL)"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "fabricState",
+              "value": "ready_stock",
+              "sourcePhrases": [
+                "65” RS"
+              ],
+              "interpretation": "inferred"
+            }
+          ],
+          "yarns": [],
+          "alternatives": [
+            "OPTION 1 100% GOTS NOP-certified organic cotton",
+            "OPTION 2 BCI cotton.",
+            "OPTION 3 Regen Agri Cotton"
+          ],
+          "issues": [
+            {
+              "field": "weaveType",
+              "source": "(OL)",
+              "message": "Weave qualifier '(OL)' present in source; significance of qualifier not specified"
+            }
+          ]
+        },
+        {
+          "source": "B) 20 CCW × 20 CCW / 96 × 48, 3/1 Drill –\nOPTION 1 100% GOTS NOP-certified organic cotton\nOPTION 2 BCI cotton.\nOPTION 3 Regen Agri Cotton",
+          "fields": [
+            {
+              "field": "count",
+              "value": "20 CCW × 20 CCW",
+              "sourcePhrases": [
+                "20 CCW × 20 CCW"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "construction",
+              "value": "96 × 48",
+              "sourcePhrases": [
+                "96 × 48"
+              ],
+              "interpretation": "explicit"
+            },
+            {
+              "field": "weaveType",
+              "value": "3/1 Drill",
+              "sourcePhrases": [
+                "3/1 Drill"
+              ],
+              "interpretation": "explicit"
+            }
+          ],
+          "yarns": [],
+          "alternatives": [
+            "OPTION 1 100% GOTS NOP-certified organic cotton",
+            "OPTION 2 BCI cotton.",
+            "OPTION 3 Regen Agri Cotton"
+          ],
+          "issues": []
+        }
+      ]
+    }
+  }
+]
