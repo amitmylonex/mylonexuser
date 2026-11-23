@@ -2,6 +2,7 @@ import { createClient, type AuthChangeEvent, type Session } from '@supabase/supa
 import { ApiError } from '../api'
 import { verifyBuyer } from '../../features/auth/buyer-api'
 import { loadPortal, readAccount } from './portal-api'
+import { clearProfile } from '../../features/profile/api/profileStore'
 
 const url = import.meta.env.VITE_SUPABASE_URL
 const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
@@ -80,7 +81,7 @@ export async function restoreAccount() {
 }
 
 export function onSessionChange(handler: (event: AuthChangeEvent) => void) {
-  const subscription = auth?.onAuthStateChange(event => handler(event)).data.subscription
+  const subscription = auth?.onAuthStateChange(event => { if (event === 'SIGNED_OUT') clearProfile(); handler(event) }).data.subscription
   return () => subscription?.unsubscribe()
 }
 

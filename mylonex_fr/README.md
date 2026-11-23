@@ -1,5 +1,24 @@
 # MyloNex homepage and buyer portal
 
+The buyer avatar menu links to `/buyer/profile`, `/buyer/profile/edit` and
+`/buyer/profile/password`. The modular feature is in `src/features/profile/`;
+its shared current-profile cache powers the menu and pages and updates on save.
+Run `npm run test:profile` for validation/cache checks. Deploy the backend's
+additive profile SQL patch and configure its private avatar bucket before using
+these pages in another environment; see `mylonex_br/src/modules/profile/README.md`.
+
+The buyer navigation includes **AI Chat** at `/buyer/chat`. Its lazy-loaded
+feature lives in `src/features/buyer/chat/` and uses authenticated Fastify
+endpoints; API keys and database access stay on the backend. Chat includes
+paginated saved conversations, live catalog/supplier and own-inquiry tools,
+deletion, and requirement cards with an explicit review/import handoff to the
+existing RFQ builder. Configure `OPENAI_API_KEY` only in `mylonex_br/.env`.
+Basic greetings, buyer help, catalog/supplier searches and inquiry tracking work
+without that key; these messages are labeled **Guided help**. OpenAI is optional
+for richer responses, with guided help available if the provider fails.
+See the backend `src/modules/chat/README.md` for API and load-control details.
+Run `npm run test:chat` for the requirement handoff checks.
+
 Start the backend and configure development Supabase email confirmation and the
 callback as described in the backend README. In a separate PowerShell window,
 from the workspace root:

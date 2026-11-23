@@ -13,15 +13,17 @@ export default function ImportDialog({
   capacity,
   onClose,
   onAdd,
+  initialText = "",
 }: {
   tab: "text" | "sheet";
   capacity: number;
   onClose: () => void;
   onAdd: (_lines: RfqLine[]) => void;
+  initialText?: string;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [tab, setTab] = useState(initialTab);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(initialText);
   const [file, setFile] = useState<File | null>(null);
   const [review, setReview] = useState<RfqLine[] | null>(null);
   const [error, setError] = useState("");

@@ -1,8 +1,8 @@
 import { useId, useRef, useState } from 'react'
 import FabricLoader from './FabricLoader'
 
-export default function SignOutButton({ onConfirm, className = 'btn-outline' }: {
-  onConfirm: () => Promise<void>; className?: string
+export default function SignOutButton({ onConfirm, className = 'btn-outline', menuItem = false }: {
+  onConfirm: () => Promise<void>; className?: string; menuItem?: boolean
 }) {
   const title = useId()
   const dialog = useRef<HTMLDialogElement>(null)
@@ -29,7 +29,7 @@ export default function SignOutButton({ onConfirm, className = 'btn-outline' }: 
   }
 
   return <>
-    <button ref={trigger} type="button" className={className} aria-haspopup="dialog" onClick={() => {
+    <button ref={trigger} type="button" role={menuItem ? 'menuitem' : undefined} className={className} aria-haspopup="dialog" onClick={() => {
       setError('')
       dialog.current?.showModal()
       stay.current?.focus()

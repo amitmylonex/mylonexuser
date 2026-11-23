@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test:rfq": "vitest run src/legacy-rfq"
+    "test:rfq": "vitest run src/legacy-rfq",
+    "test:chat": "vitest run src/features/buyer/chat",
+    "test:profile": "vitest run src/features/profile"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",

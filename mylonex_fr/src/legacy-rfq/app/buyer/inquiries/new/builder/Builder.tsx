@@ -17,6 +17,9 @@ import styles from "./styles";
 
 const VALIDATION_KEY = "00000000-0000-4000-8000-000000000001";
 export default function Builder({ buyerId }: { buyerId: string }) {
+  const [chatRequirement, setChatRequirement] = useState(() => {
+    try { return sessionStorage.getItem('mylonex-chat-rfq:' + buyerId) || ''; } catch { return ''; }
+  });
   const [imageMode, setImageMode] = useState(false);
   const onBuilderMode = () => setImageMode(false);
   const builder = useBuilder(buyerId);
@@ -45,6 +48,16 @@ export default function Builder({ buyerId }: { buyerId: string }) {
   if (!builder.hydrated) return <p role="status">Loading your RFQ draft…</p>;
   return (
     <div className={styles.builder}>
+      {chatRequirement && <section className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4" aria-label="Requirement from AI chat">
+        <h2 className="font-semibold">Requirement from AI chat</h2>
+        <p className="mt-2 whitespace-pre-wrap text-sm">{chatRequirement}</p>
+        <p className="my-3 text-sm">Review the extracted specifications before adding them to your RFQ. Your existing draft is preserved.</p>
+        <button type="button" className="btn-primary" disabled={locked} onClick={() => setImportTab('text')}>Review and import specifications</button>
+        <button type="button" className="btn-ghost ml-2" onClick={() => {
+          setChatRequirement('');
+          try { sessionStorage.removeItem('mylonex-chat-rfq:' + buyerId); } catch { /* Optional handoff storage. */ }
+        }}>Dismiss</button>
+      </section>}
       <BuilderHeader
         onVoice={() => { onBuilderMode(); setVoiceOpen(true); }}
         disabled={locked || uploading}
@@ -162,6 +175,7 @@ export default function Builder({ buyerId }: { buyerId: string }) {
         }} />}
       {importTab && (
         <ImportDialog
+          initialText={chatRequirement}
           tab={importTab}
           capacity={200 - (unchangedFirst ? 0 : lines.length)}
           onClose={() => setImportTab(null)}

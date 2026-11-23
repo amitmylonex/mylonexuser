@@ -2,13 +2,13 @@ import type { FastifyInstance } from 'fastify';
 import type { UserRole, Prisma, CommunicationRequestResponseStatus } from '@prisma/client';
 import { BuyerAccessError as RfqError } from '../auth/access-error.js';
 import type { createSessionVerifier } from '../auth/verify-session.js';
-import { parseStoredFabricShades } from './fabric-selections.js';
 import { idSchema, productionRfq, quote, review } from './schema.js';
-import { availableFabrics, createFromFabric, fabricFields, isQuickRfq, submitQuote } from './service.js';
+import { createFromFabric, isQuickRfq, submitQuote } from './service.js';
 import { z } from 'zod';
 import { submitBuyerBatch } from './batch.js';
 import { BatchConflictError } from './legacy/src/domains/rfq/batch/schema.js';
 import { registerExtractionRoutes } from './extraction-routes.js';
+import { browseBuyerCatalog } from '../catalog/buyer-browse.js';
 
 const requestFields = {
   id: true, rfqNumber: true, fabricName: true, quantity: true, deliveryPincode: true,
@@ -70,11 +70,7 @@ export async function registerRfqRoutes(app: FastifyInstance, session: ReturnTyp
 
     api.get('/buyer/fabrics', async req => {
       const { db } = await actor(req.headers.authorization, 'BUYER');
-      const items = await db.supplierCatalog.findMany({
-        where: availableFabrics, select: fabricFields, orderBy: [{ createdAt: 'desc' }, { id: 'desc' }], take: 100,
-      });
-      return { items: items.map(({ shadeVariants, supplierId: _supplierId, ...item }) =>
-        ({ ...item, shades: parseStoredFabricShades(shadeVariants) })) };
+      return browseBuyerCatalog(db, req.query);
     });
     api.post('/buyer/inquiries/from-fabric', async (req, reply) => {
       const { db, id } = await actor(req.headers.authorization, 'BUYER');

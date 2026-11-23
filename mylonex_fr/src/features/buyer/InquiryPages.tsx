@@ -1,57 +1,10 @@
 import BuyerInquiryList from './BuyerInquiryList'
 import { PortalBadge, PortalBanner, PortalEmpty, PortalFact } from '../../shared/components/PortalPanels'
 import DataState from '../../shared/components/DataState'
-import { useState, type FormEvent } from 'react'
-import { usePortalData, portalRequest, type Inquiry, type Quote } from '../../shared/session/rfq-api'
+import { usePortalData, type Inquiry, type Quote } from '../../shared/session/rfq-api'
 import { InquiryPlaceholder, InquirySkeleton } from './InquirySkeleton'
 
-type Fabric = { compositionText?: string; productionCycle?: string; gsm?: number; weaveType?: string; imageUrls?: string[]; id: string; fabricName: string; minimumOrderQuantity: number; supplier: { companyName: string }; shades: { id: string; name: string }[] }
-
-export function Fabrics() {
-  const { data, error, loading, refresh } = usePortalData<{ items: Fabric[] }>('/buyer/fabrics')
-  const [message, setMessage] = useState('')
-  const [busy, setBusy] = useState(false)
-  async function submit(event: FormEvent<HTMLFormElement>, fabricId: string) {
-    event.preventDefault()
-    const form = new FormData(event.currentTarget)
-    setBusy(true)
-    setMessage('')
-    try {
-      const selectedShadeIds = form.getAll('shade')
-      const result = await portalRequest<{ id: string }>('/buyer/inquiries/from-fabric', {
-        selectedPath: 'production', fabricId, quantity: Number(form.get('quantity')),
-        deliveryPincode: form.get('pincode'), contactPhone: form.get('phone'), buyerMessage: form.get('message'),
-        ...(selectedShadeIds.length ? { selectedShadeIds } : {}),
-      })
-      window.location.assign('/buyer/inquiries/' + result.id)
-    } catch (error) { setMessage((error as Error).message) }
-    finally { setBusy(false) }
-  }
-  return <div className="space-y-6"><PortalBanner label="Buyer Portal" title="Browse Fabrics" description="Explore individual fabrics and request a production quote." /><DataState data={data} error={error} loading={loading} retry={refresh} />
-    {message && <p role="alert">{message}</p>}
-    {data?.items.length === 0 && <p>No eligible fabrics are available.</p>}
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{data?.items.map(fabric => (
-      <section className="card space-y-3 p-5" key={fabric.id}>
-        {fabric.imageUrls?.[0] ? <img src={fabric.imageUrls[0]} alt="" loading="lazy" className="aspect-[4/3] w-full rounded-xl object-cover" /> :
-          <div className="grid aspect-[4/3] place-items-center rounded-xl bg-[#f1f5f9] text-sm text-muted">No image</div>}
-        {fabric.productionCycle && <PortalBadge tone="blue">{fabric.productionCycle.replaceAll('_', ' ')}</PortalBadge>}
-        <h2 className="text-xl">{fabric.fabricName}</h2>
-        <p className="text-sm text-muted">{fabric.compositionText} · {fabric.weaveType} · {fabric.gsm} GSM</p>
-        <p className="text-sm">{fabric.supplier.companyName} · Minimum {fabric.minimumOrderQuantity} m per shade</p>
-        <details><summary className="cursor-pointer text-primary">Request production quote</summary>
-          <form className="mt-3 space-y-3" onSubmit={event => submit(event, fabric.id)}>
-            {fabric.shades.length > 0 && <fieldset><legend>Shades</legend>{fabric.shades.map(shade => <label className="block" key={shade.id}><input type="checkbox" name="shade" value={shade.id} /> {shade.name}</label>)}</fieldset>}
-            <label className="block">Meters per shade<input className="input" name="quantity" type="number" min={fabric.minimumOrderQuantity} required /></label>
-            <label className="block">Delivery pincode<input className="input" name="pincode" minLength={3} required /></label>
-            <label className="block">Contact phone<input className="input" name="phone" type="tel" minLength={10} required /></label>
-            <label className="block">Buyer note<textarea className="input" name="message" maxLength={500} /></label>
-            <button className="btn-primary" disabled={busy}>{busy ? 'Submitting…' : 'Submit inquiry'}</button>
-          </form>
-        </details>
-      </section>
-    ))}</div>
-  </div>
-}
+export { default as Fabrics } from './catalog/FabricBrowser'
 
 export function BuyerInquiries({ id }: { id?: string }) {
   return id ? <BuyerInquiry id={id} /> : <BuyerInquiryList />

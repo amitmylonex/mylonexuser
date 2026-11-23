@@ -63,7 +63,7 @@ export default function AccountRoutes({ href, path }: { href: string; path: stri
   </AccountCard>
 
   return (
-    <PortalLayout role={account.role} path={path} email={account.email}  onLogout={logout}>
+    <PortalLayout role={account.role} path={path} email={account.email} buyer={account.role === 'BUYER' ? account : undefined} onLogout={logout}>
       {account.role === 'BUYER' && <BuyerPortal account={account} path={path} />}
       {account.role === 'SUPPLIER' && <SupplierPortal account={account} path={path} />}
     </PortalLayout>

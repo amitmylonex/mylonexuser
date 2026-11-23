@@ -25,7 +25,7 @@ test('buyer endpoints deny anonymous access and reject browser-supplied roles', 
     });
     assert.equal(preflight.statusCode, 204);
     assert.equal(preflight.headers['access-control-allow-origin'], 'http://localhost:5173');
-    assert.equal(preflight.headers['access-control-allow-methods'], 'GET, POST, OPTIONS');
+    assert.equal(preflight.headers['access-control-allow-methods'], 'GET, POST, PATCH, DELETE, OPTIONS');
     assert.equal(preflight.headers['access-control-allow-headers'], 'authorization');
     for (const origin of ['http://localhost:5174', 'http://localhost:5199']) {
       const response = await app.inject({

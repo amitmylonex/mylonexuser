@@ -1,4 +1,5 @@
 import { request } from '../../shared/api';
+import { loadProfile } from '../profile/api/profileStore';
 
 export type Buyer = {
   id: string
@@ -32,6 +33,4 @@ export const verifyBuyer = (token: string) => request<Buyer>('/buyer/session', {
   headers: { Authorization: 'Bearer ' + token },
 });
 
-export const readBuyer = (token: string) => request<Buyer>('/buyer/me', {
-  headers: { Authorization: 'Bearer ' + token },
-});
+export const readBuyer = (token: string) => loadProfile(token);

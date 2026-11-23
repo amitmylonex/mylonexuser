@@ -1,5 +1,12 @@
 # MyloNex buyer and homepage API
 
+Buyer profile APIs, private avatars, password changes and setup are documented
+in [`src/modules/profile/README.md`](src/modules/profile/README.md).
+
+Buyer AI chat is available at `/buyer/chat` in the user frontend. See
+[`src/modules/chat/README.md`](src/modules/chat/README.md) for module structure,
+API contracts, configuration, database compatibility and deployment limits.
+
 The first portal workflow is a catalog-based production RFQ. A buyer selects an
 active fabric from an approved supplier, an admin forwards its exact match,
 the assigned supplier submits a quote, and an admin releases the quote for
@@ -42,6 +49,14 @@ two server-side. The API defaults to `http://localhost:4000` and permits the
 frontend origin `http://localhost:5173`. If you change the frontend origin,
 update `FRONTEND_ORIGIN` and the Supabase redirect allowlist together. Health
 is at `/api/v1/health`.
+
+For Supabase, set `DATABASE_URL` to the transaction pooler connection string
+(port `6543`) and append `?pgbouncer=true&connection_limit=3` (use `&` if the
+URL already has query parameters). The session pooler on port `5432` holds a
+database connection per client and can fail with `EMAXCONNSESSION` when its
+pool fills, causing account session requests to return HTTP 500. Restart the
+API after changing `.env`; keep migration connections separate from this
+runtime URL.
 
 In your **development** Supabase Auth settings, allow the exact redirect
 `http://localhost:5173/auth/callback`. Use the default Confirm signup email

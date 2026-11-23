@@ -33,7 +33,33 @@ model User {
   supplierProfile SupplierProfile?
   requests CommunicationRequest[]
   rfqBatches RfqBatch[]
+  conversations Conversation[]
+  profileRateLimits ProfileRateLimit[]
 
+}
+
+model Conversation {
+  id String @id @default(uuid())
+  userId String @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title String @default("New Chat")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  messages Message[]
+  @@index([userId, updatedAt])
+  @@map("conversations")
+}
+
+model Message {
+  id String @id @default(uuid())
+  conversationId String @map("conversation_id")
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role String
+  content String
+  metadata Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([conversationId, createdAt])
+  @@map("messages")
 }
 
 model SupplierProfile {
@@ -48,6 +74,7 @@ model SupplierProfile {
   whatsappConsentAt DateTime? @map("whatsapp_consent_at")
   updatedAt   DateTime       @updatedAt
   catalogs SupplierCatalog[]
+  fabricCollections FabricCollection[]
   wovenProducts WovenProduct[]
   city String?
   matches CommunicationRequestMatch[]
@@ -63,8 +90,23 @@ model BuyerProfile {
   phone     String?
   gstNumber String?  @map("gst_number") // optional GST/tax ID
   city      String?
+  address String? @map("billing_address")
+  designation String?
+  state String?
+  pincode String?
+  avatarPath String? @map("avatar_path")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ProfileRateLimit {
+  userId String @map("user_id")
+  action String
+  attempts Int @default(1)
+  windowEndsAt DateTime @map("window_ends_at")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@id([userId, action])
+  @@map("profile_rate_limits")
 }
 
 enum CatalogSourceType {
@@ -102,6 +144,7 @@ model SupplierCatalog {
   supplierId         String            @map("supplier_id")
   supplier           SupplierProfile   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
   fabricCollectionId String?           @map("fabric_collection_id")
+  fabricCollection FabricCollection? @relation(fields: [fabricCollectionId], references: [id])
 
   fabricName           String                    @map("fabric_name")
   fabricType           SupplierCatalogFabricType? @default(cotton) @map("fabric_type")
@@ -142,6 +185,22 @@ model SupplierCatalog {
   @@index([fabricCollectionId])
   @@index([isActive])
   @@map("supplier_catalog")
+}
+
+model FabricCollection {
+  id String @id @default(uuid())
+  supplierId String @map("supplier_id")
+  supplier SupplierProfile @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  name String
+  imageUrl String? @map("image_url")
+  isArchived Boolean @default(false) @map("is_archived")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  catalogEntries SupplierCatalog[]
+  @@unique([supplierId, name])
+  @@index([supplierId])
+  @@index([isArchived])
+  @@map("fabric_collections")
 }
 
 model CommunicationRequest {

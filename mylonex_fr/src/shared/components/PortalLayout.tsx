@@ -3,14 +3,15 @@ import { useState, type ReactNode } from 'react'
 import Logo from '../branding/Logo'
 import type { Role } from '../session/portal-api'
 import { paths } from '../../routes'
+import ProfileMenu from '../../features/profile/components/ProfileMenu'
 
 const navigation = {
-  BUYER: [['Fabrics', '/buyer/fabrics'], ['Inquiries', '/buyer/inquiries']],
+  BUYER: [['Fabrics', '/buyer/fabrics'], ['Inquiries', '/buyer/inquiries'], ['AI Chat', '/buyer/chat']],
   SUPPLIER: [['Inquiries', '/supplier/inquiries']],
 }
 
-export default function PortalLayout({ role, path, email, onLogout, children }: {
-  role: Exclude<Role, 'ADMIN'>; path: string; email: string; onLogout: () => Promise<void>; children: ReactNode
+export default function PortalLayout({ role, path, email, onLogout, children, buyer }: {
+  role: Exclude<Role, 'ADMIN'>; path: string; email: string; onLogout: () => Promise<void>; children: ReactNode; buyer?: { id: string; fullName: string | null }
 }) {
   const [open, setOpen] = useState(false)
   const links = [['Dashboard', paths.dashboards[role]], ...navigation[role]]
@@ -24,6 +25,7 @@ export default function PortalLayout({ role, path, email, onLogout, children }: 
             <path d={open ? 'M6 18 18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'} />
           </svg>
         </button>
+        {role === 'BUYER' && buyer && <div className="md:hidden"><ProfileMenu userId={buyer.id} name={buyer.fullName} email={email} onLogout={onLogout} /></div>}
         <div id="portal-navigation" className={`w-full flex-col gap-3 border-t border-[#e4e7ec] pt-3 md:ml-8 md:flex md:w-auto md:flex-1 md:flex-row md:items-center md:justify-between md:border-0 md:pt-0 ${open ? 'mt-3 flex md:mt-0' : 'hidden'}`}>
           <nav className="flex flex-col gap-2 md:flex-row" aria-label={role.toLowerCase() + ' portal'}>
             {links.map(([name, href]) => {
@@ -35,6 +37,7 @@ export default function PortalLayout({ role, path, email, onLogout, children }: 
           <div className="flex flex-wrap gap-3">
           {role === 'BUYER' && <a className="btn-primary" href="/buyer/inquiries/new">New RFQ</a>}
           <SignOutButton onConfirm={onLogout} />
+          {role === 'BUYER' && buyer && <div className="hidden md:block"><ProfileMenu userId={buyer.id} name={buyer.fullName} email={email} onLogout={onLogout} /></div>}
           </div>
         </div>
       </div>
